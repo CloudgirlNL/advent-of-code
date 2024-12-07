@@ -1,26 +1,48 @@
-$path = "C:\tmp\advent-of-code\2024\02\testinput.txt"
+$path = "C:\git\advent-of-code\2024\02\input.txt"
 $AoCinput = Get-Content -Path $path
 
-<#
-Rules
-- Must only increase or decrease
-- Min 1 difference, max 3 
-#>
+$safeLines = 0
+$unsafeLines = 0
 
-
-#Divide the left and right part of the lists and add them to separate arrays
 foreach ($line in $AoCinput) {
     $numbers = $line.Trim() -split "\s+"
 
-    for ($i = 0;$i -lt ($numbers.count -1);$i++) {
-        if ($numbers[$i+1] -lt $numbers[$i]) {
-            Write-Host "$($numbers[$i+1]) is kleiner dan $($numbers[$i])"
-        } else { 
-            Write-Output "Klopt niet"
-            break
+    $isValid = $true
+    $isIncreasing = $null
+
+    for ($i = 1; $i -lt $numbers.length; $i++) {
+
+ 
+        $current = [int]$numbers[$i]
+        $previous = [int]$numbers[$i - 1]
+        $difference = $current - $previous
+
+        if (-not $isIncreasing) {
+            $isIncreasing = $difference -gt 0
         }
-            
+
+
+        if (($isIncreasing -and ($difference -lt 1 -or $difference -gt 3)) -or
+        (-not $isIncreasing -and ($difference -gt -1 -or $difference -lt -3))) {
+            $isValid = $false
+            break
+       
+
+
+
         }
     }
- Write-Output "pauze"
+    if ($isValid) {
+        if ($isIncreasing) {
+            $safeLines += 1
+        }
+        else { 
+            $safeLines += 1
+        }
+    } else {
+        $unsafeLines +=1
+    }
+}
 
+Write-Host $safeLines
+Write-Host $unsafeLines

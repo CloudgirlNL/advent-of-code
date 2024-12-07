@@ -1,4 +1,4 @@
-$path = "C:\tmp\advent-of-code\2024\01\testinput.txt"
+$path = "C:\git\advent-of-code\2024\01\testinput.txt"
 $AoCinput = Get-Content -Path $path
 
 $leftList = @()
